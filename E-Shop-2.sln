@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "E-Shop-2\API.csproj", "{54C87FE6-58BD-4322-82DC-65834D85557A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{C8C51403-25D0-43F6-88A9-0A8F9E7F077F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{DAF25C6B-886B-4C90-B09C-C2CAA67C86AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54C87FE6-58BD-4322-82DC-65834D85557A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54C87FE6-58BD-4322-82DC-65834D85557A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54C87FE6-58BD-4322-82DC-65834D85557A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54C87FE6-58BD-4322-82DC-65834D85557A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8C51403-25D0-43F6-88A9-0A8F9E7F077F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C51403-25D0-43F6-88A9-0A8F9E7F077F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C51403-25D0-43F6-88A9-0A8F9E7F077F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C51403-25D0-43F6-88A9-0A8F9E7F077F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAF25C6B-886B-4C90-B09C-C2CAA67C86AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF25C6B-886B-4C90-B09C-C2CAA67C86AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF25C6B-886B-4C90-B09C-C2CAA67C86AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF25C6B-886B-4C90-B09C-C2CAA67C86AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1132245D-7533-4362-AC10-2A7B48C89E39}
+	EndGlobalSection
+EndGlobal

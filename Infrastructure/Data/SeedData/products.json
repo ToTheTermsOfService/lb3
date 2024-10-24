@@ -1,0 +1,146 @@
+[
+  {
+    "Name": "Speedster Angular Board 2000",
+    "Description": "High-performance board designed for speed and agility.",
+    "Price": 200,
+    "PictureUrl": "images/products/sb-ang1.png",
+    "CategoryId": 1,
+    "BrandId": 2
+  },
+  {
+    "Name": "Angular Green Board 3000",
+    "Description": "Sleek and durable board with a vibrant green finish.",
+    "Price": 150,
+    "PictureUrl": "images/products/sb-ang2.png",
+    "CategoryId": 1,
+    "BrandId": 3
+  },
+  {
+    "Name": "Core Speed Rush Board 3",
+    "Description": "Ultimate speed board for intense performance.",
+    "Price": 180,
+    "PictureUrl": "images/products/sb-core1.png",
+    "CategoryId": 1,
+    "BrandId": 4
+  },
+  {
+    "Name": "Net Core Super Board",
+    "Description": "Premium quality board for professional use.",
+    "Price": 300,
+    "PictureUrl": "images/products/sb-core2.png",
+    "CategoryId": 1,
+    "BrandId": 5
+  },
+  {
+    "Name": "React Super Whizzy Board",
+    "Description": "High-end board for advanced riders.",
+    "Price": 250,
+    "PictureUrl": "images/products/sb-react1.png",
+    "CategoryId": 1,
+    "BrandId": 6
+  },
+  {
+    "Name": "Typescript Entry Board",
+    "Description": "Affordable entry-level board for beginners.",
+    "Price": 120,
+    "PictureUrl": "images/products/sb-ts1.png",
+    "CategoryId": 1,
+    "BrandId": 7
+  },
+  {
+    "Name": "Core Blue Hat",
+    "Description": "Stylish hat for casual wear.",
+    "Price": 10,
+    "PictureUrl": "images/products/hat-core1.png",
+    "CategoryId": 2,
+    "BrandId": 3
+  },
+  {
+    "Name": "React Green Woolen Hat",
+    "Description": "Comfortable and warm woolen hat.",
+    "Price": 8,
+    "PictureUrl": "images/products/hat-react1.png",
+    "CategoryId": 2,
+    "BrandId": 5
+  },
+  {
+    "Name": "React Purple Woolen Hat",
+    "Description": "Soft and cozy hat for cold weather.",
+    "Price": 15,
+    "PictureUrl": "images/products/hat-react2.png",
+    "CategoryId": 2,
+    "BrandId": 4
+  },
+  {
+    "Name": "Code Blue Gloves",
+    "Description": "Durable gloves for everyday use.",
+    "Price": 18,
+    "PictureUrl": "images/products/glove-code1.png",
+    "CategoryId": 4,
+    "BrandId": 4
+  },
+  {
+    "Name": "Code Green Gloves",
+    "Description": "Versatile gloves with a comfortable fit.",
+    "Price": 15,
+    "PictureUrl": "images/products/glove-code2.png",
+    "CategoryId": 4,
+    "BrandId": 4
+  },
+  {
+    "Name": "React Purple Gloves",
+    "Description": "Stylish gloves with a sleek design.",
+    "Price": 16,
+    "PictureUrl": "images/products/glove-react1.png",
+    "CategoryId": 4,
+    "BrandId": 5
+  },
+  {
+    "Name": "React Green Gloves",
+    "Description": "Comfortable gloves for everyday activities.",
+    "Price": 14,
+    "PictureUrl": "images/products/glove-react2.png",
+    "CategoryId": 4,
+    "BrandId": 5
+  },
+  {
+    "Name": "Redis Red Boots",
+    "Description": "Rugged and durable boots for all terrains.",
+    "Price": 250,
+    "PictureUrl": "images/products/boot-redis1.png",
+    "CategoryId": 3,
+    "BrandId": 6
+  },
+  {
+    "Name": "Core Red Boots",
+    "Description": "High-quality boots with superior comfort.",
+    "Price": 189.99,
+    "PictureUrl": "images/products/boot-core2.png",
+    "CategoryId": 3,
+    "BrandId": 3
+  },
+  {
+    "Name": "Core Purple Boots",
+    "Description": "Stylish boots with excellent durability.",
+    "Price": 199.99,
+    "PictureUrl": "images/products/boot-core1.png",
+    "CategoryId": 3,
+    "BrandId": 3
+  },
+  {
+    "Name": "Angular Purple Boots",
+    "Description": "Elegant and versatile boots for any occasion.",
+    "Price": 150,
+    "PictureUrl": "images/products/boot-ang2.png",
+    "CategoryId": 3,
+    "BrandId": 2
+  },
+  {
+    "Name": "Angular Blue Boots",
+    "Description": "Classic blue boots with a modern twist.",
+    "Price": 180,
+    "PictureUrl": "images/products/boot-ang1.png",
+    "CategoryId": 3,
+    "BrandId": 2
+  }
+]

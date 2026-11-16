@@ -1,0 +1,52 @@
+Модель завантажено: C:\Users\user\source\repos\NetworkAnomalyDetection\Models\network_anomaly_model.zip
+Вхідна схема моделі: Features: Vector<Single, 34>
+
+Файл: C:\Users\user\source\repos\NetworkAnomalyDetection\Data\holdout_test.csv
+Опитів: 2339, сесій: 21, векторів приростів: 2318, мітки класу: є (буде перевірка)
+
+PredictionEngine, 15 випадкових записів:
+   Рядок Сесія          Прогноз     Score  Справжній клас
+     330 icmp-echo#2    АНОМАЛІЯ   0.1612  icmp-echo   вірно
+     387 icmp-echo#2    АНОМАЛІЯ   0.2486  icmp-echo   вірно
+     439 icmp-echo#3    АНОМАЛІЯ   0.4120  icmp-echo   вірно
+     612 tcp-syn#2      АНОМАЛІЯ   0.1679  tcp-syn     вірно
+     870 tcp-syn#4      АНОМАЛІЯ   0.2213  tcp-syn     вірно
+     998 udp-flood#1    АНОМАЛІЯ   0.8623  udp-flood   вірно
+    1315 udp-flood#3    норма      0.0784  udp-flood   ПОМИЛКА
+    1797 slowloris#2    норма      0.0664  slowloris   ПОМИЛКА
+    1798 slowloris#2    норма      0.0285  slowloris   ПОМИЛКА
+    1873 slowloris#2    норма      0.0625  slowloris   ПОМИЛКА
+    1910 slowloris#3    норма      0.0671  slowloris   ПОМИЛКА
+    1956 slowloris#3    норма      0.0185  slowloris   ПОМИЛКА
+    2089 slowpost#1     норма      0.0643  slowpost    ПОМИЛКА
+    2165 slowpost#2     норма      0.0317  slowpost    ПОМИЛКА
+    2319 bruteForce#1   АНОМАЛІЯ   0.1751  bruteForce  вірно
+
+Пакетний прогноз за сесіями:
+  Сесія           Векторів  Аномалій   Частка  Перша аномалія (рядок CSV)
+  normal#1              60         5    8.3 %  8
+  normal#2              60         3    5.0 %  82
+  icmp-echo#1          120       120  100.0 %  125
+  icmp-echo#2          150       141   94.0 %  246
+  icmp-echo#3           46        46  100.0 %  397
+  tcp-syn#1             60        49   81.7 %  448
+  tcp-syn#2            180       130   72.2 %  505
+  tcp-syn#3            120        90   75.0 %  686
+  tcp-syn#4            120       109   90.8 %  810
+  udp-flood#1          150       150  100.0 %  928
+  udp-flood#2          116       113   97.4 %  1079
+  udp-flood#3          120       113   94.2 %  1196
+  httpFlood#1          150       150  100.0 %  1317
+  httpFlood#2          125       125  100.0 %  1468
+  httpFlood#3           11        11  100.0 %  1594
+  slowloris#1          120        33   27.5 %  1606
+  slowloris#2          150        12    8.0 %  1728
+  slowloris#3          120        13   10.8 %  1879
+  slowpost#1           120        36   30.0 %  1999
+  slowpost#2           120        44   36.7 %  2125
+  bruteForce#1         100        98   98.0 %  2241
+Усього аномалій: 1591 з 2318
+
+Перевірка за мітками (лише для демонстрації; повне оцінювання — у Trainer):
+  Виявлено атак:  1583/2198 = 72.0 %
+  Хибні тривоги:  8/120 = 6.7 %

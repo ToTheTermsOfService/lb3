@@ -1,0 +1,163 @@
+
+===== 1. Дані =====
+Файл: C:\Users\user\source\repos\NetworkAnomalyDetection\Data\network_anomaly.csv
+Опитів: 4998, ознак: 34. Рядки впорядковані в часі й утворюють 21 сесій:
+  Сесія          Рядки CSV     Опитів  Приростів
+  normal#1       2-301            300        299
+  normal#2       302-601          300        299
+  icmp-echo#1    602-841          240        239
+  icmp-echo#2    842-1141         300        299
+  icmp-echo#3    1142-1233         92         91
+  tcp-syn#1      1234-1353        120        119
+  tcp-syn#2      1354-1713        360        359
+  tcp-syn#3      1714-1953        240        239
+  tcp-syn#4      1954-2193        240        239
+  udp-flood#1    2194-2493        300        299
+  udp-flood#2    2494-2726        233        232
+  udp-flood#3    2727-2966        240        239
+  httpFlood#1    2967-3266        300        299
+  httpFlood#2    3267-3516        250        249
+  httpFlood#3    3517-3539         23         22
+  slowloris#1    3540-3779        240        239
+  slowloris#2    3780-4079        300        299
+  slowloris#3    4080-4319        240        239
+  slowpost#1     4320-4559        240        239
+  slowpost#2     4560-4799        240        239
+  bruteForce#1   4800-4999        200        199
+Ознаки моделі: прирости лічильників між сусідніми опитами (переповнення 2^32 і скидання оброблено),
+для gauge tcpCurrEstab — поточне значення. Перший опит кожної сесії приросту не має.
+
+===== 2. Розбиття (за часом, без перемішування) =====
+  train       normal:  358   атаки:     0
+  validation  normal:  120   атаки:  2181
+  test        normal:  120   атаки:  2198
+
+===== 3. Абляція передобробки й рангу (validation; модель навчена на train normal) =====
+TPR@1%FPR: частка атак validation вище порогу = 99-й перцентиль Score на normal validation.
+  Передобробка Rank      AUC  TPR@1%FPR  NaN у Score
+  none            1   0.6319     21.8 %            1
+  none            2   0.6319     21.8 %            1
+  none            3   0.6319     21.8 %            1
+  none            5   0.4673      9.9 %          853
+  none            8   0.3154      3.4 %         1313
+  none           12   0.6220      8.8 %         1680
+  log             1   0.5236     20.2 %            0
+  log             2   0.3238      3.7 %            0
+  log             3   0.8599     12.8 %            0
+  log             5   0.9355     66.6 %            0
+  log             8   0.9612     78.9 %            0
+  log            12   0.9259     56.3 %           34
+  meanvar         1   0.6641     25.9 %            0
+  meanvar         2   0.6607     34.3 %            0
+  meanvar         3   0.6680     54.1 %            0
+  meanvar         5   0.6319      1.8 %            0
+  meanvar         8   0.8979     46.0 %            0
+  meanvar        12   0.8673     38.0 %            3
+  log+meanvar     1   0.2095      3.3 %            0
+  log+meanvar     2   0.2058      2.8 %            0
+  log+meanvar     3   0.1613      1.7 %            0
+  log+meanvar     5   0.1605      1.6 %            0
+  log+meanvar     8   0.0996      0.3 %            0
+  log+meanvar    12   0.5674     18.9 %            0
+Обрано: передобробка = log, Rank = 8 (найвищий AUC на validation; за рівності — вищий TPR, менший ранг).
+
+===== 4. Фінальна модель =====
+Score на train normal:      медіана 0.1076, 99% 0.3211
+Score на validation normal: медіана 0.0351, 99% 0.0966
+Поріг аномалії = 0.0966 (99-й перцентиль на validation normal: поріг визначається на даних, яких PCA не бачив).
+Записів train із Score = NaN до заміни: 0 з 358 (див. звіт, розділ про NaN).
+
+===== 5. Оцінювання на test =====
+ML.NET Evaluate: AUC = 0.8652, detection rate @ 1 FP = 0.5864
+Власний AUC (перевірка): 0.8652
+PCA (фінальна модель):
+  TPR (виявлені атаки)  = 1583/2198 = 72.02 %  95% ДІ [70.11 %; 73.86 %]
+  FPR (хибні тривоги)   = 8/120 = 6.67 %  95% ДІ [3.42 %; 12.61 %]
+  Precision = 0.9950  F1 = 0.8356  Balanced accuracy = 0.8268  Accuracy = 0.7312
+
+Матриця помилок:
+                  прогноз: аномалія   прогноз: норма
+  факт: атака                  1583              615
+  факт: normal                    8              112
+
+За класами (test):
+  bruteForce     98/100   98.0 %  95% ДІ [93.0 %; 99.4 %]  медіана Score 0.2324 
+  httpFlood     286/286  100.0 %  95% ДІ [98.7 %; 100.0 %]  медіана Score 0.3672 
+  icmp-echo     307/316   97.2 %  95% ДІ [94.7 %; 98.5 %]  медіана Score 0.3482 
+  normal          8/120    6.7 %  95% ДІ [3.4 %; 12.6 %]  медіана Score 0.0516 <- хибні тривоги
+  slowloris      58/390   14.9 %  95% ДІ [11.7 %; 18.7 %]  медіана Score 0.0519 
+  slowpost       80/240   33.3 %  95% ДІ [27.7 %; 39.5 %]  медіана Score 0.0713 
+  tcp-syn       378/480   78.7 %  95% ДІ [74.9 %; 82.2 %]  медіана Score 0.1645 
+  udp-flood     376/386   97.4 %  95% ДІ [95.3 %; 98.6 %]  медіана Score 0.2689 
+
+Пропущені атаки (615):
+  рядок  1002  icmp-echo#2    Score 0.0801  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=87950456
+  рядок  1028  icmp-echo#2    Score 0.0844  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=115547100
+  рядок  1059  icmp-echo#2    Score 0.0909  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=83534090
+  рядок  1070  icmp-echo#2    Score 0.0851  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=90971280
+  рядок  1078  icmp-echo#2    Score 0.0675  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=92010160
+  рядок  1080  icmp-echo#2    Score 0.0633  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=105194460
+  рядок  1106  icmp-echo#2    Score 0.0573  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=126029690
+  рядок  1107  icmp-echo#2    Score 0.0862  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=212364620
+  рядок  1132  icmp-echo#2    Score 0.0749  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=125294140
+  рядок  1294  tcp-syn#1      Score 0.0628  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=151221070
+  рядок  1295  tcp-syn#1      Score 0.0489  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=99216220
+  рядок  1296  tcp-syn#1      Score 0.0535  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=161167600
+  рядок  1297  tcp-syn#1      Score 0.0696  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=132631256
+  рядок  1299  tcp-syn#1      Score 0.0761  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=132675150
+  рядок  1300  tcp-syn#1      Score 0.0797  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=124091990
+  рядок  1301  tcp-syn#1      Score 0.0843  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=123092220
+  рядок  1303  tcp-syn#1      Score 0.0540  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=132701100
+  рядок  1305  tcp-syn#1      Score 0.0729  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=132704290
+  рядок  1306  tcp-syn#1      Score 0.0780  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=128763310
+  рядок  1312  tcp-syn#1      Score 0.0951  tcpCurrEstab=0, ΔtcpInSegs=0, ΔifInOctets=135732910
+  ... ще 595
+Хибні тривоги (8):
+  рядок   247  normal#1       Score 0.1923
+  рядок   248  normal#1       Score 0.1379
+  рядок   264  normal#1       Score 0.0978
+  рядок   273  normal#1       Score 0.0987
+  рядок   284  normal#1       Score 0.1354
+  рядок   560  normal#2       Score 0.1105
+  рядок   565  normal#2       Score 0.1044
+  рядок   573  normal#2       Score 0.1574
+
+===== 6. Базові рішення на test =====
+Усе — аномалія:
+  TPR (виявлені атаки)  = 2198/2198 = 100.00 %  95% ДІ [99.83 %; 100.00 %]
+  FPR (хибні тривоги)   = 120/120 = 100.00 %  95% ДІ [96.90 %; 100.00 %]
+  Precision = 0.9482  F1 = 0.9734  Balanced accuracy = 0.5000  Accuracy = 0.9482
+Константні в сирих значеннях train normal: ifoutDiscards11, ifInDiscards11, ipOutNoRoutes
+Правило «константи сесії» (сирі значення):
+  TPR (виявлені атаки)  = 1748/2198 = 79.53 %  95% ДІ [77.79 %; 81.16 %]
+  FPR (хибні тривоги)   = 0/120 = 0.00 %  95% ДІ [0.00 %; 3.10 %]
+  Precision = 1.0000  F1 = 0.8860  Balanced accuracy = 0.8976  Accuracy = 0.8059
+Детектор z-оцінок (без PCA), підбір на validation:
+  max |z|, σ ≥ 0.001  AUC(val) = 0.2564
+  max |z|, σ ≥ 0.1    AUC(val) = 0.2538
+  max |z|, σ ≥ 1      AUC(val) = 0.2372
+  mean |z|, σ ≥ 0.001  AUC(val) = 0.2832
+  mean |z|, σ ≥ 0.1    AUC(val) = 0.2798
+  mean |z|, σ ≥ 1      AUC(val) = 0.1757
+Детектор mean |z| (σ ≥ 0.001):
+  TPR (виявлені атаки)  = 30/2198 = 1.36 %  95% ДІ [0.96 %; 1.94 %]
+  FPR (хибні тривоги)   = 0/120 = 0.00 %  95% ДІ [0.00 %; 3.10 %]
+  Precision = 1.0000  F1 = 0.0269  Balanced accuracy = 0.5068  Accuracy = 0.0647
+  AUC = 0.2234
+
+===== 7. Узагальнення на нові дані: абсолютні значення (перша версія) vs прирости =====
+Атаки в усіх протоколах — test-половини атакувальних сесій. Поріг — 99-й перцентиль на вказаних normal.
+  Протокол                               Ознаки                       AUC           FPR (normal)      TPR
+  P1 випадкове 80/20, поріг на train     абсолютні (log, r=8)      1.0000 0/120 = 0.0 % [0 %;3 %]   99.9 %
+  P2 часове 60/20/20                     абсолютні (log, r=8)      0.9246 55/120 = 45.8 % [37 %;55 %]   94.9 %
+  P3 normal#1 -> normal#2                абсолютні (log, r=8)      0.9084 300/300 = 100.0 % [99 %;100 %]  100.0 %
+  P4 normal#2 -> normal#1                абсолютні (log, r=8)      0.7957 300/300 = 100.0 % [99 %;100 %]  100.0 %
+  P1 випадкове 80/20, поріг на train     прирости (log, r=8)       0.7994 2/120 = 1.7 % [0 %;6 %]   40.6 %
+  P2 часове 60/20/20                     прирости (log, r=8)       0.8652 8/120 = 6.7 % [3 %;13 %]   72.0 %
+  P3 normal#1 -> normal#2                прирости (log, r=8)       0.7957 0/299 = 0.0 % [0 %;1 %]   37.7 %
+  P4 normal#2 -> normal#1                прирости (log, r=8)       0.7787 36/299 = 12.0 % [9 %;16 %]   55.7 %
+
+===== 8. Збереження =====
+ROC-криві: C:\Users\user\source\repos\NetworkAnomalyDetection\Reports\roc_test.svg
+Відкладені тестові опити для Predictor: C:\Users\user\source\repos\NetworkAnomalyDetection\Data\holdout_test.csv (2339 опитів)
+Модель: C:\Users\user\source\repos\NetworkAnomalyDetection\Models\network_anomaly_model.zip (3.2 КБ)

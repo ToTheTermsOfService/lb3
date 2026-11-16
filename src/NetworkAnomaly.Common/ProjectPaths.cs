@@ -1,6 +1,5 @@
 namespace NetworkAnomaly.Common;
 
-/// <summary>Шляхи відносно кореня рішення (шукаємо .sln вгору від bin/). Шлях до моделі можна перевизначити змінною NAD_MODEL.</summary>
 public static class ProjectPaths
 {
     public static string SolutionRoot { get; } = FindRoot();
